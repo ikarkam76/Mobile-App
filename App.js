@@ -3,12 +3,15 @@ import {
   View,
   Text,
   ImageBackground,
+  Image,
   TouchableWithoutFeedback,
   StyleSheet,
   Keyboard,
+  KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
   Button,
+  Platform,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as Font from "expo-font";
@@ -21,9 +24,23 @@ const loadFonts = async () => {
   });
 };
 
+const initialState = {
+  login: '',
+  email: '',
+  password: ''
+}
 
 export default function App()  {
-  const [isFontsReady, setIsFontsReady] = useState(false)
+  const [isFontsReady, setIsFontsReady] = useState(false);
+  const [isInputFocus, setIsInputFocus] = useState(false);
+  const [user, setUser] = useState(initialState);
+
+  const submitRegForm = () => {
+    setIsInputFocus(false);
+    Keyboard.dismiss();
+    console.log(user);
+    setUser(initialState);
+  }
   if (!isFontsReady) {
     return (
       <AppLoading
@@ -39,32 +56,62 @@ export default function App()  {
         style={styles.image}
         source={require("./assets/img/Photo_BG.png")}
       >
-        <View style={styles.formContainer}>
-          <View style={styles.fotoContainer}></View>
-          <Text style={styles.pageHeader}>Реєстрація</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Логін"
-            placeholderTextColor="#BDBDBD"
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Адреса електонної пошти"
-            placeholderTextColor="#BDBDBD"
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Пароль"
-            placeholderTextColor="#BDBDBD"
-            secureTextEntry={true}
-          />
-          <TouchableOpacity style={styles.btnLogIn}>
-            <Text style={styles.btnTitleLogIn}>Зареєструватися</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSingIn}>
-            <Text style={styles.btnTitle}>Вже маєте аккаунт? Увійти</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" && "padding"}
+            onFocus={() => setIsInputFocus(true)}
+          >
+            <View style={styles.formContainer}>
+              <View style={styles.fotoContainer}>
+                <TouchableOpacity style={styles.fotoContainerBtn}>
+                  <Image source={require("./assets/img/add.png")} />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.pageHeader}>Реєстрація</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Логін"
+                placeholderTextColor="#BDBDBD"
+                value={user.login}
+                onChangeText={(val) =>
+                  setUser((prev) => ({ ...prev, login: val }))
+                }
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholder="Адреса електонної пошти"
+                placeholderTextColor="#BDBDBD"
+                value={user.email}
+                onChangeText={(val) =>
+                  setUser((prev) => ({ ...prev, email: val }))
+                }
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholder="Пароль"
+                placeholderTextColor="#BDBDBD"
+                value={user.password}
+                secureTextEntry={true}
+                onChangeText={(val) =>
+                  setUser((prev) => ({ ...prev, password: val }))
+                }
+              />
+              <TouchableOpacity style={styles.btnLogIn}>
+                <Text style={styles.btnTitleLogIn} onPress={submitRegForm}>
+                  Зареєструватися
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  ...styles.btnSingIn,
+                  marginBottom: isInputFocus ? 5 : 45,
+                }}
+              >
+                <Text style={styles.btnTitle}>Вже маєте аккаунт? Увійти</Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </ImageBackground>
       <StatusBar style="auto" backgroundColor="transparent" />
     </View>
@@ -83,8 +130,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   formContainer: {
+    display: 'flex',
     minWidth: 375,
     height: 549,
+    justifyContent: 'flex-end',
     alignItems: "center",
     backgroundColor: `#ffffff`,
     borderTopRightRadius: 25,
@@ -95,13 +144,16 @@ const styles = StyleSheet.create({
     height: 120,
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
-    marginTop: -60,
+    marginBottom: 32,
+  },
+  fotoContainerBtn: {
+    marginTop: 81,
+    marginLeft: 107,
   },
   pageHeader: {
     width: 184,
     height: 35,
-    marginTop: 32,
-    marginBottom: 16,
+    marginBottom: 32,
     textAlign: "center",
     fontFamily: "Roboto-500",
     fontSize: 30,
@@ -111,7 +163,7 @@ const styles = StyleSheet.create({
     height: 50,
     minWidth: 343,
     padding: 16,
-    marginTop: 16,
+    marginBottom: 16,
     backgroundColor: "#F6F6F6",
     borderWidth: 1,
     borderColor: "#E8E8E8",
@@ -121,7 +173,8 @@ const styles = StyleSheet.create({
   btnLogIn: {
     height: 51,
     minWidth: 343,
-    marginTop: 43,
+    marginBottom: 16,
+    marginTop: 27,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FF6C00",
@@ -136,7 +189,6 @@ const styles = StyleSheet.create({
     height: 51,
     minWidth: 343,
     padding: 10,
-    marginTop: 6,
     justifyContent: "center",
     alignItems: "center",
   },
