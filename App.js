@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import * as Font from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import AppLoading from "expo-app-loading";
-import { Register } from "./Screens/Auth/Registration";
-import { Login } from "./Screens/Auth/Login";
-
-const AuthStack = createStackNavigator();
+import { useRoute } from "./router";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -15,11 +13,12 @@ const loadFonts = async () => {
     "Roboto-500": require("./assets/fonts/Roboto-Medium.ttf"),
   });
 };
+  
 
 
 export default function App()  {
   const [isFontsReady, setIsFontsReady] = useState(false);
-
+  const routing = useRoute(1);
   if (!isFontsReady) {
     return (
       <AppLoading
@@ -30,24 +29,12 @@ export default function App()  {
     ); 
   }
   return (
-    <NavigationContainer>
-      <AuthStack.Navigator initialRouteName="Register">
-        <AuthStack.Screen
-          name="Register"
-          component={Register}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <AuthStack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </AuthStack.Navigator>
+    <Provider store={store}>
+      <NavigationContainer>
+      {routing}
       <StatusBar style="auto" backgroundColor="transparent" />
-    </NavigationContainer>
+      </NavigationContainer>
+    </Provider>
+    
   );
 }

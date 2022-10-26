@@ -13,21 +13,22 @@ import {
   Platform,
 } from "react-native";
 
+
 const initialState = {
+  login: "",
   email: "",
   password: "",
 };
 
-export const Login = ({ navigation }) => {
+export const Register = ({navigation}) => {
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [user, setUser] = useState(initialState);
 
   const submitRegForm = () => {
     setIsInputFocus(false);
     Keyboard.dismiss();
-    console.log(user);
     setUser(initialState);
-  };
+    };
 
   return (
     <View style={styles.container}>
@@ -35,13 +36,30 @@ export const Login = ({ navigation }) => {
         style={styles.image}
         source={require("../../assets/img/Photo_BG.png")}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback onPress={() => {
+          Keyboard.dismiss();
+          setIsInputFocus(false);
+        }}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" && "padding"}
             onFocus={() => setIsInputFocus(true)}
           >
             <View style={styles.formContainer}>
-              <Text style={styles.pageHeader}>Увійти</Text>
+              <View style={styles.fotoContainer}>
+                <TouchableOpacity style={styles.fotoContainerBtn}>
+                  <Image source={require("../../assets/img/add.png")} />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.pageHeader}>Реєстрація</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Логін"
+                placeholderTextColor="#BDBDBD"
+                value={user.login}
+                onChangeText={(val) =>
+                  setUser((prev) => ({ ...prev, login: val }))
+                }
+              />
               <TextInput
                 style={styles.textInput}
                 placeholder="Адреса електонної пошти"
@@ -62,21 +80,15 @@ export const Login = ({ navigation }) => {
                 }
               />
               <TouchableOpacity style={styles.btnLogIn}>
-                <Text
-                  style={styles.btnTitleLogIn}
-                  onPress={submitRegForm}
-                >
-                  Увійти
+                <Text style={styles.btnTitleLogIn} onPress={submitRegForm}>
+                  Зареєструватися
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{
-                  ...styles.btnSingIn,
-                  marginBottom: isInputFocus ? 5 : 45,
-                }}
-                onPress={() => navigation.navigate("Register")}
+                style={{...styles.btnSingIn, marginBottom: isInputFocus ? -142 : 45 }}
+                onPress={()=>navigation.navigate('Login')}
               >
-                <Text style={styles.btnTitle}>Нема аккаунта? Зареєструватись</Text>
+                <Text style={styles.btnTitle}>Вже маєте аккаунт? Увійти</Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
@@ -84,7 +96,7 @@ export const Login = ({ navigation }) => {
       </ImageBackground>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -105,6 +117,17 @@ const styles = StyleSheet.create({
     backgroundColor: `#ffffff`,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
+  },
+  fotoContainer: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+    marginBottom: 32,
+  },
+  fotoContainerBtn: {
+    marginTop: 81,
+    marginLeft: 107,
   },
   pageHeader: {
     width: 184,

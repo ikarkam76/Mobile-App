@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ImageBackground,
-  Image,
   TouchableWithoutFeedback,
   StyleSheet,
   Keyboard,
@@ -13,23 +12,20 @@ import {
   Platform,
 } from "react-native";
 
-
 const initialState = {
-  login: "",
   email: "",
   password: "",
 };
 
-export const Register = ({navigation}) => {
+export const Login = ({ navigation }) => {
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [user, setUser] = useState(initialState);
 
   const submitRegForm = () => {
     setIsInputFocus(false);
     Keyboard.dismiss();
-    console.log(user);
     setUser(initialState);
-    };
+  };
 
   return (
     <View style={styles.container}>
@@ -37,30 +33,13 @@ export const Register = ({navigation}) => {
         style={styles.image}
         source={require("../../assets/img/Photo_BG.png")}
       >
-        <TouchableWithoutFeedback onPress={() => {
-          Keyboard.dismiss();
-          setIsInputFocus(false);
-        }}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" && "padding"}
             onFocus={() => setIsInputFocus(true)}
           >
             <View style={styles.formContainer}>
-              <View style={styles.fotoContainer}>
-                <TouchableOpacity style={styles.fotoContainerBtn}>
-                  <Image source={require("../../assets/img/add.png")} />
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.pageHeader}>Реєстрація</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Логін"
-                placeholderTextColor="#BDBDBD"
-                value={user.login}
-                onChangeText={(val) =>
-                  setUser((prev) => ({ ...prev, login: val }))
-                }
-              />
+              <Text style={styles.pageHeader}>Увійти</Text>
               <TextInput
                 style={styles.textInput}
                 placeholder="Адреса електонної пошти"
@@ -81,15 +60,21 @@ export const Register = ({navigation}) => {
                 }
               />
               <TouchableOpacity style={styles.btnLogIn}>
-                <Text style={styles.btnTitleLogIn} onPress={submitRegForm}>
-                  Зареєструватися
+                <Text
+                  style={styles.btnTitleLogIn}
+                  onPress={submitRegForm}
+                >
+                  Увійти
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{...styles.btnSingIn, marginBottom: isInputFocus ? -142 : 45 }}
-                onPress={()=>navigation.navigate('Login')}
+                style={{
+                  ...styles.btnSingIn,
+                  marginBottom: isInputFocus ? 5 : 45,
+                }}
+                onPress={() => navigation.navigate("Register")}
               >
-                <Text style={styles.btnTitle}>Вже маєте аккаунт? Увійти</Text>
+                <Text style={styles.btnTitle}>Нема аккаунта? Зареєструватись</Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
@@ -97,7 +82,7 @@ export const Register = ({navigation}) => {
       </ImageBackground>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -118,17 +103,6 @@ const styles = StyleSheet.create({
     backgroundColor: `#ffffff`,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
-  },
-  fotoContainer: {
-    width: 120,
-    height: 120,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-    marginBottom: 32,
-  },
-  fotoContainerBtn: {
-    marginTop: 81,
-    marginLeft: 107,
   },
   pageHeader: {
     width: 184,
