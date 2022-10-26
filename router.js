@@ -3,11 +3,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import { View, StyleSheet } from "react-native";
-import { Register } from "./screens1/auth1/Registration";
-import { Login } from "./screens1/auth1/Login";
-import { Posts } from "./screens1/mainScreens1/PostsScreen";
-import { CreatePosts } from "./screens1/mainScreens1/CreatePostsScreen";
-import { Profile } from "./screens1/mainScreens1/ProfileScreen";
+import { Register } from "./screens/auth/Registration";
+import { Login } from "./screens/auth/Login";
+import { Posts } from "./screens/mainScreens/PostsScreen";
+import { CreatePosts } from "./screens/mainScreens/CreatePostsScreen";
+import { Profile } from "./screens/mainScreens/ProfileScreen";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
