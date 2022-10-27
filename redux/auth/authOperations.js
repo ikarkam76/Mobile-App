@@ -9,6 +9,8 @@ import {
 } from "firebase/auth";
 import { authSlice } from "./authReduser";
 
+const { updateUserProfile, authStateChange, authSingOut} = authSlice.actions;
+
 const auth = getAuth(db);
 
 export const authSingUPUser =
@@ -21,7 +23,7 @@ export const authSingUPUser =
         userId: auth.currentUser.uid,
         login: auth.currentUser.displayName,
       };
-      dispatch( authSlice.actions.updateUserProfile(userUpdateProfile) );
+      dispatch( updateUserProfile(userUpdateProfile) );
     } catch (error) {
       console.log(error.message);
     }
@@ -42,20 +44,17 @@ export const authChangeStateUser = () =>
   try {
     await onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(
-          authSlice.actions.updateUserProfile({
+        dispatch( updateUserProfile({
             userId: user.uid,
             login: user.displayName,
           })
         );
-        dispatch(
-          authSlice.actions.authStateChange({
+        dispatch( authStateChange({
             stateChange: true,
           })
         );
       } else {
-        dispatch(
-          authSlice.actions.authStateChange({
+        dispatch( authStateChange({
             stateChange: false,
           })
         );
@@ -70,7 +69,7 @@ export const authSingOutUser = () =>
   async (dispatch, getState) => {
     try {
       await signOut(auth);
-      dispatch(authSlice.actions.authSingOut());
+      dispatch(authSingOut());
     } catch (error) {
       console.log(error.message);
     }
