@@ -1,18 +1,15 @@
-import firebase from "firebase";
-import "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCjCU77ya0PwuiEl_sVbFQsadkH8Nj389g",
-  authDomain: "postsapp-2d088.firebaseapp.com",
-  databaseURL: "https://postsapp-2d088-default-rtdb.firebaseio.com",
-  projectId: "postsapp-2d088",
-  storageBucket: "postsapp-2d088.appspot.com",
-  messagingSenderId: "312852328271",
-  appId: "1:312852328271:web:60cbff2366529b87975f3a",
-  measurementId: "G-TGSZ4XR4ZE",
+  apiKey: "AIzaSyCuTte8elI_z5Os6BDVSB25_fMKd0W0mfI",
+  authDomain: "postsapp-caf53.firebaseapp.com",
+  projectId: "postsapp-caf53",
+  storageBucket: "postsapp-caf53.appspot.com",
+  messagingSenderId: "932756018679",
+  appId: "1:932756018679:web:ef064e57bcfd95d4f18af2",
+  measurementId: "G-7GRJSJ1JQY",
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = app.auth();
-
-export { auth };
+export const auth = getAuth(app);

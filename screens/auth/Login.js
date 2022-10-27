@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -11,6 +12,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import { authSingInUser } from "../../redux/auth/authOperations";
 
 const initialState = {
   email: "",
@@ -20,10 +22,12 @@ const initialState = {
 export const Login = ({ navigation }) => {
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [user, setUser] = useState(initialState);
+  const dispatch = useDispatch();
 
   const submitRegForm = () => {
     setIsInputFocus(false);
     Keyboard.dismiss();
+    dispatch(authSingInUser(user));
     setUser(initialState);
   };
 

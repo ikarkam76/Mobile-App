@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -12,21 +13,25 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import { authSingUPUser } from "../../redux/auth/authOperations";
 
 
 const initialState = {
   login: "",
   email: "",
-  password: "",
+  password: ""
 };
 
 export const Register = ({navigation}) => {
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [user, setUser] = useState(initialState);
 
-  const submitRegForm = () => {
+  const dispatch = useDispatch();
+
+  const handleSudmit = () => {
     setIsInputFocus(false);
     Keyboard.dismiss();
+    dispatch(authSingUPUser(user));
     setUser(initialState);
     };
 
@@ -80,7 +85,7 @@ export const Register = ({navigation}) => {
                 }
               />
               <TouchableOpacity style={styles.btnLogIn}>
-                <Text style={styles.btnTitleLogIn} onPress={submitRegForm}>
+                <Text style={styles.btnTitleLogIn} onPress={handleSudmit}>
                   Зареєструватися
                 </Text>
               </TouchableOpacity>

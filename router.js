@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import { Register } from "./screens/auth/Registration";
 import { Login } from "./screens/auth/Login";
 import { Posts } from "./screens/mainScreens/PostsScreen";
@@ -34,7 +34,17 @@ export const useRoute = (isAuth) => {
     );
   }
   return (
-    <MainTab.Navigator screenOptions={styles.tabBar}>
+    <MainTab.Navigator
+      screenOptions={{
+        ...styles.tabBar,
+        headerRight: () => (
+          <Button
+            title='LOG OUT'
+            onPress={() => {alert('Wow! Are you pressing me???!')}}
+          />
+        ),
+      }}
+    >
       <MainTab.Screen
         options={{
           tabBarIcon: ({ focused, color, size }) => (
@@ -70,7 +80,8 @@ export const useRoute = (isAuth) => {
 
 const styles = StyleSheet.create({
   tabBar: {
-        tabBarShowLabel: false,
+    tabBarShowLabel: false,
+    headerTitleAlign: 'center',
   },
   btnCreate: {
     height: 40,
