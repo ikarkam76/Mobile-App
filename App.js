@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import db from './fireBase/config';
 import * as Font from "expo-font";
-import { StatusBar } from "expo-status-bar";
 import AppLoading from "expo-app-loading";
-import { useRoute } from "./router";
 import { Provider } from "react-redux";
+
 import { store } from "./redux/store";
+import { Main } from "./components/Main";
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -18,16 +15,7 @@ const loadFonts = async () => {
   
 export default function App()  {
   const [isFontsReady, setIsFontsReady] = useState(false);
-  const [isUser, setIsUser] = useState(null);
-  const auth = getAuth(db);
-  onAuthStateChanged(auth, (user) => {
-    if(user) {
-      setIsUser(user)
-    } else {
-      setIsUser(null)
-    }
-  });
-  const routing = useRoute(isUser);
+  
   if (!isFontsReady) {
     return (
       <AppLoading
@@ -39,10 +27,7 @@ export default function App()  {
   }
   return (
     <Provider store={store}>
-      <NavigationContainer>
-      {routing}
-      <StatusBar style="auto" backgroundColor="transparent" />
-      </NavigationContainer>
+      <Main/>
     </Provider>
     
   );

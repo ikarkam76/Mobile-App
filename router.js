@@ -3,16 +3,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import { View, StyleSheet, Button } from "react-native";
+import { useDispatch } from "react-redux";
+
 import { Register } from "./screens/auth/Registration";
 import { Login } from "./screens/auth/Login";
 import { Posts } from "./screens/mainScreens/PostsScreen";
 import { CreatePosts } from "./screens/mainScreens/CreatePostsScreen";
 import { Profile } from "./screens/mainScreens/ProfileScreen";
+import { authSingOutUser } from "./redux/auth/authOperations";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 export const useRoute = (isAuth) => {
+  const dispatch = useDispatch();
   if (!isAuth) {
     return (
       <AuthStack.Navigator initialRouteName="Register">
@@ -39,8 +43,8 @@ export const useRoute = (isAuth) => {
         ...styles.tabBar,
         headerRight: () => (
           <Button
-            title='LOG OUT'
-            onPress={() => {alert('Wow! Are you pressing me???!')}}
+            title='LOGOUT'
+            onPress={()=> dispatch(authSingOutUser())}
           />
         ),
       }}
