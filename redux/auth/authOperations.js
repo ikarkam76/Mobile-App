@@ -70,6 +70,7 @@ export const authSingOutUser = () =>
   async (dispatch, getState) => {
     try {
       await signOut(auth);
+      dispatch(authSlice.actions.authSingOut());
     } catch (error) {
       console.log(error.message);
     }
