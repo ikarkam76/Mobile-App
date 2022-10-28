@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     display: "flex",
     minWidth: 375,
     height: 549,
+    marginBottom: 5,
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: `#ffffff`,

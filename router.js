@@ -2,21 +2,17 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
-import { View, StyleSheet, Button } from "react-native";
-import { useDispatch } from "react-redux";
+import { View, StyleSheet } from "react-native";
 
 import { Register } from "./screens/auth/Registration";
 import { Login } from "./screens/auth/Login";
 import { Posts } from "./screens/mainScreens/PostsScreen";
 import { CreatePosts } from "./screens/mainScreens/CreatePostsScreen";
 import { Profile } from "./screens/mainScreens/ProfileScreen";
-import { authSingOutUser } from "./redux/auth/authOperations";
-
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 export const useRoute = (isAuth) => {
-  const dispatch = useDispatch();
   if (!isAuth) {
     return (
       <AuthStack.Navigator initialRouteName="Register">
@@ -38,24 +34,15 @@ export const useRoute = (isAuth) => {
     );
   }
   return (
-    <MainTab.Navigator
-      screenOptions={{
-        ...styles.tabBar,
-        headerRight: () => (
-          <Button
-            title='LOGOUT'
-            onPress={()=> dispatch(authSingOutUser())}
-          />
-        ),
-      }}
-    >
+    <MainTab.Navigator screenOptions={styles.tabBar}>
       <MainTab.Screen
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <Feather name="grid" size={24} color={color} />
           ),
+          headerShown: false,
         }}
-        name="Posts"
+        name="Default"
         component={Posts}
       />
       <MainTab.Screen
