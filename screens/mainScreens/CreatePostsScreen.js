@@ -19,7 +19,7 @@ import {
   requestMicrophonePermissionsAsync
 } from 'expo-camera';
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-
+import { uploadPhoto } from "../../redux/files/dataBaseOperations";
 
 export const CreatePosts = ({navigation}) => {
   const cameraRef = useRef();
@@ -37,11 +37,6 @@ export const CreatePosts = ({navigation}) => {
     await requestCameraPermissionsAsync();
     await requestMicrophonePermissionsAsync();
   }
-  
-  const uploadPhoto = async () => {
-    alert('NOW !!!')
-  };
-
 
   const getPermissions = async() => {
     const cameraPermission = await getCameraPermissionsAsync();
@@ -76,8 +71,8 @@ export const CreatePosts = ({navigation}) => {
     try {
       await navigation.navigate("Posts", { photo, post });
       await setShowDescriptionPhoto(false);
-      await setPhoto("");
-      uploadPhoto();
+      uploadPhoto(photo);
+      setPhoto("");
     } catch (error) {
       console.log(error.message);
     }
