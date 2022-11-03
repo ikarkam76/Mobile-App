@@ -63,13 +63,8 @@ export const Login = ({ navigation }) => {
                   setUser((prev) => ({ ...prev, password: val }))
                 }
               />
-              <TouchableOpacity style={styles.btnLogIn}>
-                <Text
-                  style={styles.btnTitleLogIn}
-                  onPress={submitRegForm}
-                >
-                  Увійти
-                </Text>
+              <TouchableOpacity style={styles.btnLogIn} onPress={submitRegForm}>
+                <Text style={styles.btnTitleLogIn}>Увійти</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{
@@ -78,7 +73,9 @@ export const Login = ({ navigation }) => {
                 }}
                 onPress={() => navigation.navigate("Register")}
               >
-                <Text style={styles.btnTitle}>Нема аккаунта? Зареєструватись</Text>
+                <Text style={styles.btnTitle}>
+                  Нема аккаунта? Зареєструватись
+                </Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>

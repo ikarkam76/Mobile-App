@@ -25,7 +25,6 @@ const initialState = {
 export const Register = ({navigation}) => {
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [user, setUser] = useState(initialState);
-
   const dispatch = useDispatch();
 
   const handleSudmit = () => {
@@ -41,10 +40,12 @@ export const Register = ({navigation}) => {
         style={styles.image}
         source={require("../../assets/img/Photo_BG.png")}
       >
-        <TouchableWithoutFeedback onPress={() => {
-          Keyboard.dismiss();
-          setIsInputFocus(false);
-        }}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Keyboard.dismiss();
+            setIsInputFocus(false);
+          }}
+        >
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" && "padding"}
             onFocus={() => setIsInputFocus(true)}
@@ -84,14 +85,15 @@ export const Register = ({navigation}) => {
                   setUser((prev) => ({ ...prev, password: val }))
                 }
               />
-              <TouchableOpacity style={styles.btnLogIn}>
-                <Text style={styles.btnTitleLogIn} onPress={handleSudmit}>
-                  Зареєструватися
-                </Text>
+              <TouchableOpacity style={styles.btnLogIn} onPress={handleSudmit}>
+                <Text style={styles.btnTitleLogIn}>Зареєструватися</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{...styles.btnSingIn, marginBottom: isInputFocus ? -142 : 45 }}
-                onPress={()=>navigation.navigate('Login')}
+                style={{
+                  ...styles.btnSingIn,
+                  marginBottom: isInputFocus ? -142 : 45,
+                }}
+                onPress={() => navigation.navigate("Login")}
               >
                 <Text style={styles.btnTitle}>Вже маєте аккаунт? Увійти</Text>
               </TouchableOpacity>

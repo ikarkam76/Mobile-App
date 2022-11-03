@@ -1,29 +1,17 @@
-import db from "../../fireBase/config";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import {firebase} from "../../fireBase/config";
 import { authSlice } from "./authReduser";
 
 const { updateUserProfile, authStateChange, authSingOut} = authSlice.actions;
-
-const auth = getAuth(db);
 
 export const authSingUPUser =
   ({ login, email, password }) =>
   async (dispatch, getState) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(auth.currentUser, { displayName: login });
-      const userUpdateProfile = await {
-        userId: auth.currentUser.uid,
-        login: auth.currentUser.displayName,
-      };
-      dispatch( updateUserProfile(userUpdateProfile) );
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const user = await firebase.auth().currentUser;
+      await user.updateProfile({ displayName: login });
+      const { uid, displayName } = await firebase.auth().currentUser;
+      dispatch( updateUserProfile({userId:uid, login:displayName}) );
     } catch (error) {
       console.log(error.message);
     }
@@ -33,7 +21,7 @@ export const authSingInUser =
   ({ email, password }) =>
   async (dispatch, getState) => {
     try {
-      await signInWithEmailAndPassword( auth, email, password );
+      await firebase.auth().signInWithEmailAndPassword( email, password);
     } catch (error) {
       console.log(error.message);
     }
@@ -42,7 +30,7 @@ export const authSingInUser =
 export const authChangeStateUser = () =>
   async (dispatch, getState) => {
   try {
-    await onAuthStateChanged(auth, (user) => {
+    await firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         dispatch( updateUserProfile({
             userId: user.uid,
@@ -68,7 +56,7 @@ export const authChangeStateUser = () =>
 export const authSingOutUser = () =>
   async (dispatch, getState) => {
     try {
-      await signOut(auth);
+      await firebase.auth().signOut();
       dispatch(authSingOut());
     } catch (error) {
       console.log(error.message);

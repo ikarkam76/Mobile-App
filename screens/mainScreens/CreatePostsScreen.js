@@ -1,4 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Alert,
   Image,
@@ -19,18 +20,32 @@ import {
   requestMicrophonePermissionsAsync
 } from 'expo-camera';
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { uploadPhoto } from "../../redux/files/dataBaseOperations";
+import * as Location from "expo-location";
+
+import { uploadPostToServer } from "../../redux/files/dataBaseOperations";
 
 export const CreatePosts = ({navigation}) => {
-  const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
+  const [location, setLocation] = useState(null);
   const [photo, setPhoto] = useState('');
-  const [post, setPost] = useState("");
+  const [comment, setComment] = useState("");
   const [flash, setFlash] = useState('off');
   const [showDescriptionPhoto, setShowDescriptionPhoto] = useState(false);
+  const cameraRef = useRef();
+    const { userId, login } = useSelector((state) => state.auth);
+
 
   useEffect(() => {
-    requestPermissions();
+    (async () => {
+      await requestPermissions();
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+        let location = await Location.getCurrentPositionAsync({});
+      await setLocation(location);
+      })();
   }, [])
 
   const requestPermissions = async () => {
@@ -69,9 +84,9 @@ export const CreatePosts = ({navigation}) => {
 
   const sendPhoto = async () => {
     try {
-      await navigation.navigate("Posts", { photo, post });
+      await navigation.navigate("Posts", { photo, comment });
       await setShowDescriptionPhoto(false);
-      uploadPhoto(photo);
+      uploadPostToServer(userId, login, photo, comment, location);
       setPhoto("");
     } catch (error) {
       console.log(error.message);
@@ -122,7 +137,7 @@ export const CreatePosts = ({navigation}) => {
                   style={styles.textInput}
                   placeholder="Додайте опис фото..."
                   placeholderTextColor="#BDBDBD"
-                  onChangeText={(val) => setPost(val)}
+                  onChangeText={(val) => setComment(val)}
                 />
                 <Ionicons
                   name="save"

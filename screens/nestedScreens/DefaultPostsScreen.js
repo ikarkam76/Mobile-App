@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { firebase } from "../../fireBase/config";
 import {
   StyleSheet,
   Text,
@@ -9,14 +10,22 @@ import {
 } from "react-native";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 
-export const DefaultPosts = ({ route, navigation }) => {
+export const DefaultPosts = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
 
+  const getAllPosts = async () => {
+    await firebase
+      .firestore()
+      .collection("posts")
+      .onSnapshot((data) =>
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    );
+  };
+
   useEffect(() => {
-    if (route.params) {
-      setPosts((prev) => [...prev, route.params]);
-    }
-  }, [route.params]);
+    getAllPosts();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -24,7 +33,7 @@ export const DefaultPosts = ({ route, navigation }) => {
         renderItem={({ item }) => (
           <View style={styles.photoContainer}>
             <Image
-              source={{ uri: item.photo }}
+              source={{ uri: item.photoToSend }}
               style={{
                 minWidth: 350,
                 height: 200,
@@ -34,8 +43,8 @@ export const DefaultPosts = ({ route, navigation }) => {
             />
             <View style={styles.titleContainer}>
               <View>
-                <Text style={{ fontSize: 20, marginLeft: 10 }}>
-                  {item.post}
+                <Text style={{ fontSize: 18, marginLeft: 10 }}>
+                  {item.comment}
                 </Text>
               </View>
               <View style={{ flexDirection: "row" }}>
@@ -77,6 +86,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: 'center',
     marginBottom: 10,
   },
 });

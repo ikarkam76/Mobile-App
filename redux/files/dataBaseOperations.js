@@ -1,14 +1,24 @@
 import { firebase } from "../../fireBase/config";
 
-export const uploadPhoto = async (photo) => {
+const uploadPhoto = async (photo) => {
+  const fileName = photo.substring(photo.lastIndexOf("/") + 1);
   const response = await fetch(photo);
   const file = await response.blob();
-  const fileName = photo.substring(photo.lastIndexOf('/')+1)
-  var ref = firebase.storage().ref().child(`Photos/${fileName}`).put(file);
-  try {
-    await ref;
-  } catch (error) {
-    console.log(error.message);
-  }
-  console.log('upload!');;
+  await firebase.storage().ref(`Photos/${fileName}`).put(file);
+  alert("Upload!");
+  const processedPhoto = await firebase
+    .storage()
+    .ref("Photos")
+    .child(fileName)
+    .getDownloadURL();
+  return processedPhoto;
+};
+
+export const uploadPostToServer = async (userId, login, photo, comment, location) => {
+  const photoToSend = await uploadPhoto(photo);
+  const createPost = await firebase
+    .firestore()
+    .collection("posts")
+    .add({ userId, login, photoToSend, comment, location: location.coords });
+  
 };
