@@ -117,7 +117,7 @@ export const CreatePosts = ({navigation}) => {
                     style={styles.snapContainer}
                     onPress={() => setShowDescriptionPhoto(true)}
                   >
-                    <MaterialIcons name="save-alt" size={40} color="#0000ff" />
+                    <MaterialIcons name="save-alt" size={40} color="#fff" />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.snapContainer}
@@ -126,13 +126,13 @@ export const CreatePosts = ({navigation}) => {
                       setShowDescriptionPhoto(false);
                     }}
                   >
-                    <MaterialIcons name="delete" size={40} color="#0000ff" />
+                    <MaterialIcons name="delete" size={40} color="#fff" />
                   </TouchableOpacity>
                 </View>
               </View>
             )}
             {showDescriptionPhoto && (
-              <View style={{}}>
+              <View>
                 <TextInput
                   style={styles.textInput}
                   placeholder="Додайте опис фото..."
@@ -160,7 +160,7 @@ export const CreatePosts = ({navigation}) => {
                 onPress={takePhoto}
                 style={styles.snapContainer}
               >
-                <MaterialIcons name="photo-camera" size={30} color="#0000ff" />
+                <MaterialIcons name="photo-camera" size={30} color="#fff" />
               </TouchableOpacity>
               <Ionicons
                 name={flash === "on" ? "flash" : "flash-off"}
@@ -194,7 +194,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
-    backgroundColor: "#FF6C00",
   },
   snap: {
     color: "#fff",

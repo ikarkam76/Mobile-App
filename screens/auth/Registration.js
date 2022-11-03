@@ -5,12 +5,12 @@ import {
   Text,
   ImageBackground,
   Image,
-  TouchableWithoutFeedback,
+  TextInput,
   StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
-  TextInput,
-  TouchableOpacity,
   Platform,
 } from "react-native";
 import { authSingUPUser } from "../../redux/auth/authOperations";

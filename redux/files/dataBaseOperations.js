@@ -16,7 +16,7 @@ const uploadPhoto = async (photo) => {
 
 export const uploadPostToServer = async (userId, login, photo, comment, location) => {
   const photoToSend = await uploadPhoto(photo);
-  const createPost = await firebase
+  await firebase
     .firestore()
     .collection("posts")
     .add({ userId, login, photoToSend, comment, location: location.coords });
