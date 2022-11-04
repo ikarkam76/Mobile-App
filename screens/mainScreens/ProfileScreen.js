@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, ImageBackground } from "react-native";
+import { StyleSheet, View, Button, ImageBackground } from "react-native";
 import { authSingOutUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 
@@ -14,8 +14,11 @@ export const Profile = () => {
         style={styles.image}
         source={require("../../assets/img/pexels-rovenimagescom-949587.jpg")}
       >
-        <Text>Profile page</Text>
-        <Button title="LOGOUT" onPress={() => dispatch(authSingOutUser())} />
+        <Button
+          style={styles.button}
+          title="LOGOUT"
+          onPress={() => dispatch(authSingOutUser())}
+        />
       </ImageBackground>
     </View>
   );
@@ -29,5 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
+  },
+  button: {
   },
 });

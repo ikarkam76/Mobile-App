@@ -33,7 +33,7 @@ export const DefaultPosts = ({ navigation }) => {
         style={styles.image}
         source={require("../../assets/img/pexels-rovenimagescom-949587.jpg")}
       >
-        <SafeAreaView >
+        <SafeAreaView style={styles.container}>
           <FlatList
             data={posts}
             renderItem={({ item }) => (
@@ -87,10 +87,9 @@ export const DefaultPosts = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
   },
   photoContainer: {
-    marginBottom: 5,
+    marginTop: 5,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#adff2f",
@@ -105,6 +104,6 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
   },
 });

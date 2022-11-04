@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
 import { Provider } from "react-redux";
 
 import { store } from "./redux/store";
@@ -43,24 +42,3 @@ export default function App() {
     </Provider>
   );
 }
-
-
-
-  // const loadFonts = async () => {
-  //   try {
-  //   } catch (error) {
-  //     console.warn(error.message);
-  //   }
-  // };
-  
-
-  
-//   if (!isFontsReady) {
-//     return (
-//       <AppLoading
-//         startAsync={loadFonts}
-//         onFinish={() => setIsFontsReady(true)}
-//         onError={console.warn}
-//       />
-//     ); 
-//   }

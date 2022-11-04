@@ -51,7 +51,7 @@ export const Comments = ({ route }) => {
   }
 
   return (
-    <View style={isInputFocus ? { position: "absolute" } : { marginTop: 10 }}>
+    <View style={styles.container}>
       <View>
         <Image
           source={{ uri: photoToSend }}
@@ -80,16 +80,14 @@ export const Comments = ({ route }) => {
           onPress={createPost}
         />
       </View>
-      <SafeAreaView style={{}}>
+      <SafeAreaView style={styles.container}>
         <FlatList
           data={allComments}
           renderItem={({ item }) => (
-              <View style={styles.commentContainer}>
-                <Text style={{ marginLeft: 5, fontSize: 16 }}>
-                  {item.login}:
-                </Text>
-                <Text style={{ fontStyle: "italic" }}> -{item.newComment}</Text>
-              </View>
+            <View style={styles.commentContainer}>
+              <Text style={{ marginLeft: 5, fontSize: 16 }}>{item.login}:</Text>
+              <Text style={{ fontStyle: "italic" }}> -{item.newComment}</Text>
+            </View>
           )}
           keyExtractor={(item) => item.id.toString()}
         />
@@ -101,7 +99,6 @@ export const Comments = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
   },
   textInput: {
     height: 50,
@@ -120,6 +117,6 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 8,
     padding: 2,
-    marginTop: 5
+    marginTop: 5,
   },
 });
